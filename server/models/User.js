@@ -1,14 +1,19 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-  text:{
-    type:String,
-    require:true
+  login: {
+    type: String,
+    require: true
   },
-  user:{
-    type:String,
-    ref:"Message",
-  }
+  email: {
+    type: String,
+  },
+  message: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Message"
+    }
+  ]
 });
 
 const User = mongoose.model("User", userSchema);

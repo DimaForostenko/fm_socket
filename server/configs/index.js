@@ -1,4 +1,4 @@
-module.exports = { 
+module.exports = {
   port: 5000,
   db: {
     development: {
@@ -11,9 +11,5 @@ module.exports = {
       port: 27017,
       database: "fm_socket_test"
     }
-  },
-  SOCKET_EVENTS:{
-    NEW_MESSAGE:'NEW_MESSAGE',
-    NEW_MESSAGE_ERROR:'NEW_MESSAGE_ERROR'
   }
-  };
+};
