@@ -4,24 +4,24 @@ import { SOCKET_EVENTS } from "../constants";
 import store from "../store";
 import * as ChatActionCreaters from "../actions/chatActionCreate";
 
-const baseUrl = 'localhost:5000';
+const baseURL = 'localhost:5000';
 
 const httpClient = axios.create({
-  baseUrl:`http://${baseUrl}`,
+  baseURL:`http://${baseURL}`,
 });
 
-const socket = io(`ws://${baseUrl}`);
+const socket = io(`ws://${baseURL}`);
 
 export const getMessages = () => httpClient.get('/');
 
 export const createMessage = (message) => socket.emit(SOCKET_EVENTS.NEW_MESSAGE, message);
 
 socket.on(SOCKET_EVENTS.NEW_MESSAGE, message => {
-  store.dispatch(ChatActionCreaters.createMessageSuccess(message))
+  store.dispatch(ChatActionCreaters.createMessageRequest(message));
 })
 
 socket.on(SOCKET_EVENTS.NEW_MESSAGE_ERROR, error => {
-  store.dispatch(ChatActionCreaters.createMessageError(error))
+  store.dispatch(ChatActionCreaters.createMessageError(error));
 })
 
 

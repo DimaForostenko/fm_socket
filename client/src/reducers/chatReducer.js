@@ -3,25 +3,27 @@ import ACTION_TYPES from '../actions/index';
 import produce from 'immer';
 
 const initialState = {
-  isFentcing:false,
-  error:null,
-  message:[]
+  isFentcing: false,
+  error: null,
+  message:[{content:'text test'}],
+  user:{}
 }
 
 export default function chatReducer(state=initialState,action){
   switch(action.type){
     case ACTION_TYPES.GET_MESSAGE_REQUEST:
     case ACTION_TYPES.CREATE_MESSAGE_REQUEST:{
-       return produce(  state, (draftState)=>{
-        draftState.isFentcing =true;
-       })
+       return produce(state, (draftState)=>{
+        draftState.isFentcing = true;
+        draftState.error = null;
+       });
     }
 
     case ACTION_TYPES.GET_MESSAGE_ERROR:
     case ACTION_TYPES.CREATE_MESSAGE_ERROR:{
       const{
         payload:{ error },
-      }=action;
+      } = action;
       return produce(state, (draftState)=>{
         draftState.isFentcing =false;
         draftState.error = error;
@@ -30,11 +32,12 @@ export default function chatReducer(state=initialState,action){
 
     case ACTION_TYPES.GET_MESSAGE_SUCCESS:{
       const{
-        payload:{messages},
-      }=action;
+        payload: {messages},
+      } = action;
       return produce(state, (draftState)=>{
-        draftState.isFentcing =false;
-        draftState.message.push(...messages);
+        draftState.isFentcing = false;
+        draftState.message.push(...messages.reverse());
+        draftState.error = null;
       })
     }
     case ACTION_TYPES.CREATE_MESSAGE_SUCCESS:{
@@ -43,11 +46,12 @@ export default function chatReducer(state=initialState,action){
       }=action;
       return produce(state, (draftState)=>{
         draftState.isFentcing =false;
-        draftState.message.push(...message);
+        draftState.message.push(message);
+        draftState.error = null;
       })
     }
     
-    default:{
+    default: {
       return state;
     }
   }
